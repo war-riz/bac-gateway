@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.gateway
+    container_name: bac_gateway
+    ports:
+      - "8000:8000"
+    env_file: .env
+    environment:
+      - PROTECTED_APP_URL=http://vulnerable_site:5000
+    depends_on: [vulnerable_site]
+    volumes: [.:/app]
+
+  vulnerable_site:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.vulnerable
+    container_name: bac_demo_site
+    ports:
+      - "5000:5000"
+    env_file: .env
+
+networks:
+  default:
+    name: bac_network
