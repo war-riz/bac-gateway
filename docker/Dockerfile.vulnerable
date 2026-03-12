@@ -1,0 +1,6 @@
+FROM python:3.11-slim
+WORKDIR /app
+RUN pip install --no-cache-dir flask flask-login
+COPY vulnerable_site/ ./vulnerable_site/
+EXPOSE 5000
+CMD ["python", "vulnerable_site/app.py"]
